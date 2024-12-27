@@ -1,7 +1,8 @@
 package ge.automation;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import ge.automation.utils.Utils;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -16,44 +17,47 @@ public class BasePage {
     public BasePage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        PageFactory.initElements(driver, this);
     }
 
 
-    public void enterText(By locator, String text) {
+    public void enterText(WebElement locator, String text) {
         waitForElementToBeClickable(locator);
-        driver.findElement(locator).sendKeys(text);
+        Utils.log("გავაგზავნოთ ინფორმაცია [ " + text + " ]  ელემენტში: " + locator);
+        locator.sendKeys(text);
+
     }
 
 
-    public void clickToElement(By locator) {
-        driver.findElement(locator).click();
+    public void clickToElement(WebElement locator) {
+        Utils.log("click to element: " + locator); // ლოგირება
+        locator.click();
     }
 
-    public void clickToElementWithWait(By locator) {
+    public void clickToElementWithWait(WebElement locator) {
         waitForElementToBeClickable(locator);
-        driver.findElement(locator).click();
+        locator.click();
     }
 
-    public void waitForElementToBeClickable(By locator) {
+    public void waitForElementToBeClickable(WebElement locator) {
         wait.until(ExpectedConditions.elementToBeClickable(locator));
     }
 
 
-    public String getElementText(By locator) {
+    public String getElementText(WebElement locator) {
         waitForElementToBeVisible(locator);
-        return driver.findElement(locator).getText();
+        return locator.getText();
     }
 
 
-    public void waitForElementToBeVisible(By locator) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+    public void waitForElementToBeVisible(WebElement locator) {
+        wait.until(ExpectedConditions.visibilityOf(locator));
     }
 
 
-    public String getCssValue(By locator, String propertyName) {
+    public String getCssValue(WebElement locator, String propertyName) {
         waitForElementToBeVisible(locator);
-        return driver.findElement(locator).getCssValue(propertyName);
+        return locator.getCssValue(propertyName);
     }
-
 
 }

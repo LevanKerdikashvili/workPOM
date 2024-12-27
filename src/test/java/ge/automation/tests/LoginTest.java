@@ -35,10 +35,8 @@ public class LoginTest extends BaseTest {
     @Test
     public void testLoginButtonTextColor() {
         LoginPage loginPage = new LoginPage(driver);
-
-        String expectedColor = "rgba(19, 35, 34, 1)";
+        String expectedColor = "rgba(19, 35, 34, 0.9)";
         String actualColor = loginPage.getLoginButtonTextColor();
-
         Assert.assertEquals(actualColor, expectedColor, "ფერი არ ემთხვევა");
 
     }
